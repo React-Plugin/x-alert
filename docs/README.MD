@@ -1,19 +1,19 @@
-# x-dialog
+# x-alert
 
 > reactjs的弹窗浮层组件 
 
-我认为，每一个组件都应该有他自带的样式和属性事件回调配置。所以我会给x-dialog默认一套简单的样式，和各种默认的配置项。
+我认为，每一个组件都应该有他自带的样式和属性事件回调配置。所以我会给x-alert默认一套简单的样式，和各种默认的配置项。
 
-演示地址： [x-dialog各种案例演示](https://react-plugin.github.io/x-dialog/)
+演示地址： [x-alert各种案例演示](https://react-plugin.github.io/x-alert/)
 
-源文件地址：[https://github.com/react-plugin/x-dialog](https://github.com/react-plugin/x-dialog)
+源文件地址：[https://github.com/react-plugin/x-alert](https://github.com/react-plugin/x-alert)
 
 ## npm安装 
 
-使用 [npm](https://www.npmjs.com/package/x-dialog) 安装, 运行
+使用 [npm](https://www.npmjs.com/package/x-alert) 安装, 运行
 
 ```bash
-$ npm install x-dialog --save-dev
+$ npm install x-alert --save-dev
 ```
 ## 调用方式
 ```js
