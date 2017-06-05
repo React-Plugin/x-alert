@@ -78,13 +78,23 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _extends = Object.assign || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }return target;
+	};
 
 	var _createClass = function () {
 	  function defineProperties(target, props) {
@@ -104,7 +114,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _xDialog = __webpack_require__(4);
+	var _propTypes = __webpack_require__(4);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _xDialog = __webpack_require__(12);
 
 	var _xDialog2 = _interopRequireDefault(_xDialog);
 
@@ -140,23 +154,75 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Alert = function (_Component) {
 	  _inherits(Alert, _Component);
 
-	  function Alert() {
+	  function Alert(props) {
 	    _classCallCheck(this, Alert);
 
-	    return _possibleConstructorReturn(this, (Alert.__proto__ || Object.getPrototypeOf(Alert)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Alert.__proto__ || Object.getPrototypeOf(Alert)).call(this, props));
+
+	    _this.state = { isShow: false };
+	    return _this;
 	  }
 
 	  _createClass(Alert, [{
-	    key: 'render',
+	    key: "componentWillReceiveProps",
+	    value: function componentWillReceiveProps(newProps) {
+	      if (newProps.isShow && !this.state.isShow) {
+	        this.setState({ isShow: true });
+	      } else if (!newProps.isShow && this.state.isShow) {
+	        this.setState({ isShow: false });
+	      }
+	    }
+	  }, {
+	    key: "okCallback",
+	    value: function okCallback() {
+	      this.props.okCallback();
+	      this.setState({ isShow: false });
+	    }
+	  }, {
+	    key: "render",
 	    value: function render() {
-	      console.log(123);
-	      return _react2.default.createElement('div', { className: 'Alert' });
+	      if (this.props.type === "alert") {
+	        this.buttons = _react2.default.createElement("div", null, _react2.default.createElement("button", { className: "d-ok", onClick: this.okCallback.bind(this) }, this.props.btnText || '知道了'));
+	        this.title = this.props.title;
+	      } else if (this.props.type === "toast") {
+	        this.buttons = false;
+	        this.timer = this.props.timer || 2000;
+	        this.title = undefined;
+	      } else {
+	        this.buttons = false;
+	        this.title = undefined;
+	        this.timer = this.props.timer || 2000;
+	      }
+	      return _react2.default.createElement(_xDialog2.default, _extends({}, this.props, {
+	        title: this.title,
+	        timer: this.timer,
+	        className: this.props.className + " " + this.props.type,
+	        isShow: this.state.isShow,
+	        buttons: this.buttons,
+	        closeIcon: this.props.closeIcon
+	      }), this.props.children);
 	    }
 	  }]);
 
 	  return Alert;
 	}(_react.Component);
 
+	Alert.propTypes = {
+	  msg: _propTypes2.default.string,
+	  isShow: _propTypes2.default.bool,
+	  title: _propTypes2.default.node,
+	  className: _propTypes2.default.string,
+	  buttons: _propTypes2.default.node,
+	  type: _propTypes2.default.string,
+	  closeIcon: _propTypes2.default.string
+	};
+	Alert.defaultProps = {
+	  title: undefined,
+	  okCallback: function okCallback() {},
+	  type: "alert",
+	  closeIcon: "",
+	  className: ''
+	};
 	exports.default = Alert;
 
 /***/ }),
@@ -173,139 +239,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _Dialog = __webpack_require__(5);
-
-	var _Dialog2 = _interopRequireDefault(_Dialog);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// export default Dialog;
-	module.exports = _Dialog2.default; /*
-	                                    * Created with Visual Studio Code.
-	                                    * github: https://github.com/React-Plugin/x-dialog
-	                                    * User: 田想兵
-	                                    * Date: 2017-05-16
-	                                    * Time: 20:00:00
-	                                    * Contact: 55342775@qq.com
-	                                    */
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _propTypes = __webpack_require__(6);
-
-	var _propTypes2 = _interopRequireDefault(_propTypes);
-
-	var _reactDom = __webpack_require__(3);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _DialogPortal = __webpack_require__(14);
-
-	var _DialogPortal2 = _interopRequireDefault(_DialogPortal);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created with Visual Studio Code.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * github: https://github.com/React-Plugin/x-dialog
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * User: 田想兵
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Date: 2017-05-16
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Time: 20:00:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Contact: 55342775@qq.com
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-	var renderSubtreeIntoContainer = _reactDom2.default.unstable_renderSubtreeIntoContainer;
-
-	var Dialog = function (_Component) {
-	  _inherits(Dialog, _Component);
-
-	  function Dialog(props) {
-	    _classCallCheck(this, Dialog);
-
-	    var _this = _possibleConstructorReturn(this, (Dialog.__proto__ || Object.getPrototypeOf(Dialog)).call(this, props));
-
-	    _this.state = { isShow: props.isShow };
-	    return _this;
-	  }
-	  //props有更新时调用事件,更新portal组件，相当于render。
-
-
-	  _createClass(Dialog, [{
-	    key: "componentWillReceiveProps",
-	    value: function componentWillReceiveProps(newProps) {
-	      this.renderPortal(newProps);
-	    }
-	    //初始化时插入父级和渲染一次portal组件
-
-	  }, {
-	    key: "componentDidMount",
-	    value: function componentDidMount() {
-	      this.node = document.createElement("div");
-	      document.body.appendChild(this.node);
-	      this.renderPortal(this.props);
-	    }
-	    //模拟render方法，调用portal组件时传入父级容器
-
-	  }, {
-	    key: "renderPortal",
-	    value: function renderPortal(props) {
-	      console.log(props);
-	      renderSubtreeIntoContainer(this, _react2.default.createElement(_DialogPortal2.default, props), this.node);
-	    }
-	    //组件销毁时触发,移除绑定
-
-	  }, {
-	    key: "componentWillUnmount",
-	    value: function componentWillUnmount() {
-	      _reactDom2.default.unmountComponentAtNode(this.node);
-	      this.node.parentNode.removeChild(this.node);
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      return null;
-	    }
-	  }]);
-
-	  return Dialog;
-	}(_react.Component);
-
-	Dialog.propTypes = {
-	  isShow: _propTypes2.default.bool.isRequired,
-	  mask: _propTypes2.default.bool,
-	  children: _propTypes2.default.node
-	};
-	Dialog.defaultProps = {
-	  isShow: false,
-	  mask: true
-	};
-	exports.default = Dialog;
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -332,16 +265,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // By explicitly using `prop-types` you are opting into new development behavior.
 	  // http://fb.me/prop-types-in-prod
 	  var throwOnDirectAccess = true;
-	  module.exports = __webpack_require__(7)(isValidElement, throwOnDirectAccess);
+	  module.exports = __webpack_require__(5)(isValidElement, throwOnDirectAccess);
 	} else {
 	  // By explicitly using `prop-types` you are opting into new production behavior.
 	  // http://fb.me/prop-types-in-prod
-	  module.exports = __webpack_require__(13)();
+	  module.exports = __webpack_require__(11)();
 	}
 
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -355,12 +288,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var emptyFunction = __webpack_require__(8);
-	var invariant = __webpack_require__(9);
-	var warning = __webpack_require__(10);
+	var emptyFunction = __webpack_require__(6);
+	var invariant = __webpack_require__(7);
+	var warning = __webpack_require__(8);
 
-	var ReactPropTypesSecret = __webpack_require__(11);
-	var checkPropTypes = __webpack_require__(12);
+	var ReactPropTypesSecret = __webpack_require__(9);
+	var checkPropTypes = __webpack_require__(10);
 
 	module.exports = function(isValidElement, throwOnDirectAccess) {
 	  /* global Symbol */
@@ -859,7 +792,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 8 */
+/* 6 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -902,7 +835,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = emptyFunction;
 
 /***/ }),
-/* 9 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -962,7 +895,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = invariant;
 
 /***/ }),
-/* 10 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -977,7 +910,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var emptyFunction = __webpack_require__(8);
+	var emptyFunction = __webpack_require__(6);
 
 	/**
 	 * Similar to invariant but only logs a warning if the condition is not met.
@@ -1033,7 +966,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = warning;
 
 /***/ }),
-/* 11 */
+/* 9 */
 /***/ (function(module, exports) {
 
 	/**
@@ -1053,7 +986,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 12 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -1068,9 +1001,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	if ((undefined) !== 'production') {
-	  var invariant = __webpack_require__(9);
-	  var warning = __webpack_require__(10);
-	  var ReactPropTypesSecret = __webpack_require__(11);
+	  var invariant = __webpack_require__(7);
+	  var warning = __webpack_require__(8);
+	  var ReactPropTypesSecret = __webpack_require__(9);
 	  var loggedTypeFailures = {};
 	}
 
@@ -1120,7 +1053,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 13 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -1134,8 +1067,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var emptyFunction = __webpack_require__(8);
-	var invariant = __webpack_require__(9);
+	var emptyFunction = __webpack_require__(6);
+	var invariant = __webpack_require__(7);
 
 	module.exports = function() {
 	  // Important!
@@ -1180,6 +1113,139 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _Dialog = __webpack_require__(13);
+
+	var _Dialog2 = _interopRequireDefault(_Dialog);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// export default Dialog;
+	module.exports = _Dialog2.default; /*
+	                                    * Created with Visual Studio Code.
+	                                    * github: https://github.com/React-Plugin/x-dialog
+	                                    * User: 田想兵
+	                                    * Date: 2017-05-16
+	                                    * Time: 20:00:00
+	                                    * Contact: 55342775@qq.com
+	                                    */
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _propTypes = __webpack_require__(4);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _reactDom = __webpack_require__(3);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _DialogPortal = __webpack_require__(14);
+
+	var _DialogPortal2 = _interopRequireDefault(_DialogPortal);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created with Visual Studio Code.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * github: https://github.com/React-Plugin/x-dialog
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * User: 田想兵
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Date: 2017-05-16
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Time: 20:00:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Contact: 55342775@qq.com
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var renderSubtreeIntoContainer = _reactDom2.default.unstable_renderSubtreeIntoContainer;
+
+	var Dialog = function (_Component) {
+	  _inherits(Dialog, _Component);
+
+	  function Dialog(props) {
+	    _classCallCheck(this, Dialog);
+
+	    var _this = _possibleConstructorReturn(this, (Dialog.__proto__ || Object.getPrototypeOf(Dialog)).call(this, props));
+
+	    _this.state = { isShow: props.isShow };
+	    return _this;
+	  }
+	  //props有更新时调用事件,更新portal组件，相当于render。
+
+
+	  _createClass(Dialog, [{
+	    key: "componentWillReceiveProps",
+	    value: function componentWillReceiveProps(newProps) {
+	      this.renderPortal(newProps);
+	    }
+	    //初始化时插入父级和渲染一次portal组件
+
+	  }, {
+	    key: "componentDidMount",
+	    value: function componentDidMount() {
+	      this.node = document.createElement("div");
+	      document.body.appendChild(this.node);
+	      this.renderPortal(this.props);
+	    }
+	    //模拟render方法，调用portal组件时传入父级容器
+
+	  }, {
+	    key: "renderPortal",
+	    value: function renderPortal(props) {
+	      console.log(props);
+	      renderSubtreeIntoContainer(this, _react2.default.createElement(_DialogPortal2.default, props), this.node);
+	    }
+	    //组件销毁时触发,移除绑定
+
+	  }, {
+	    key: "componentWillUnmount",
+	    value: function componentWillUnmount() {
+	      _reactDom2.default.unmountComponentAtNode(this.node);
+	      this.node.parentNode.removeChild(this.node);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return null;
+	    }
+	  }]);
+
+	  return Dialog;
+	}(_react.Component);
+
+	Dialog.propTypes = {
+	  isShow: _propTypes2.default.bool.isRequired,
+	  mask: _propTypes2.default.bool,
+	  children: _propTypes2.default.node
+	};
+	Dialog.defaultProps = {
+	  isShow: false,
+	  mask: true
+	};
+	exports.default = Dialog;
+
+/***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1199,7 +1265,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _propTypes = __webpack_require__(6);
+	var _propTypes = __webpack_require__(4);
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
