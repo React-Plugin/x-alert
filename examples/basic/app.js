@@ -9,10 +9,10 @@ class App extends React.Component {
     this.state = { isShow: false,msg:'',type:'alert' ,title:undefined };
   }
   defaultAlert() {
-    this.setState({ isShow:true,msg:"我是一个小提示！",type:'alert'});
+    this.setState({ isShow:true,msg:"我是一个小提示！",type:'alert',mask:false});
   }
   toast(){
-    this.setState({ isShow:true,msg:"我是一个小提示！",type:'toast'});
+    this.setState({ isShow:true,msg:"我是一个小提示！",type:'toast',mask:false});
   }
   noTitleAlert(){
     this.setState({ isShow:true,msg:"我是一个小提示！",type:'alert',title:"提示",btnText:"确定",okCallback:()=>alert('ok')});

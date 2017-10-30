@@ -53,6 +53,7 @@ export default class Alert extends Component {
         </div>
       );
       this.title = this.props.title;
+      this.timer = null;
     } else if (this.props.type === "toast") {
       this.buttons = false;
       this.timer = this.props.timer || 2000;

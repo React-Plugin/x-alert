@@ -184,6 +184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (this.props.type === "alert") {
 	        this.buttons = _react2.default.createElement("div", null, _react2.default.createElement("button", { className: "d-ok", onClick: this.okCallback.bind(this) }, this.props.btnText || '知道了'));
 	        this.title = this.props.title;
+	        this.timer = null;
 	      } else if (this.props.type === "toast") {
 	        this.buttons = false;
 	        this.timer = this.props.timer || 2000;
