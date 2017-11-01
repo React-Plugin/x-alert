@@ -1,6 +1,6 @@
 {
   "name": "x-alert",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "react alert toast 弹窗提示插件",
   "main": "./lib/index.js",
   "repository": {
@@ -57,7 +57,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "x-dialog": "0.0.2"
+    "x-dialog": "^0.0.3"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0",
